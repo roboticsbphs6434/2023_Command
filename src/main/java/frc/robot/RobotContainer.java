@@ -20,8 +20,8 @@ public class RobotContainer {
   public final DrivetrainSubsystem m_drivetrain = new DrivetrainSubsystem();
 
 // Joysticks
-//private final XboxController xboxController1 = new XboxController(1);
-private final XboxController xboxController = new XboxController(0);
+//private final controller controller1 = new controller(1);
+private final XboxController controller = new XboxController(0);
 
   // A chooser for autonomous commands
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -42,7 +42,7 @@ private final XboxController xboxController = new XboxController(0);
   
     // m_chooser.setDefaultOption("Drive forwards", new DT_AutoArcadeDrive(m_drivetrain, 0, 1, 0.2, 1));
     
-    m_drivetrain.setDefaultCommand(new DT_Arcade(m_drivetrain, () -> joystick1.getX(), () -> joystick1.getY(), () -> joystick1.getThrottle(), () -> joystick1.getTrigger()));
+    // m_drivetrain.setDefaultCommand(new DT_Arcade(m_drivetrain, () -> controller.getX(), () -> controller.getY(), () -> controller.getThrottle(), () -> controller.getTrigger()));
   
   
     // SmartDashboard.putData("Auto Mode", m_chooser);
@@ -57,25 +57,25 @@ public void init() {}
 private void configureButtonBindings() {
 
 
-  final JoystickButton button_A = new JoystickButton(xboxController, 1);
-  final JoystickButton button_B = new JoystickButton(xboxController, 2);
-  final JoystickButton button_X = new JoystickButton(xboxController, 3);
-  final JoystickButton button_Y = new JoystickButton(xboxController, 4);
+  final JoystickButton button_A = new JoystickButton(controller, 1);
+  final JoystickButton button_B = new JoystickButton(controller, 2);
+  final JoystickButton button_X = new JoystickButton(controller, 3);
+  final JoystickButton button_Y = new JoystickButton(controller, 4);
 
-  final JoystickButton button_LB = new JoystickButton(xboxController, 5);
-  final JoystickButton button_RB = new JoystickButton(xboxController, 6);
+  final JoystickButton button_LB = new JoystickButton(controller, 5);
+  final JoystickButton button_RB = new JoystickButton(controller, 6);
 
-  final JoystickButton back = new JoystickButton(xboxController, 7);
-  final JoystickButton start = new JoystickButton(xboxController, 8);
-  //final JoystickButton left_joystick_button = new JoystickButton(xboxController, 9);
-  //final JoystickButton right_joystick_button = new JoystickButton(xboxController, 10);
-  final JoystickAnalogButton button_LT = new JoystickAnalogButton(xboxController, 2);
-  final JoystickAnalogButton button_RT = new JoystickAnalogButton(xboxController, 3);
+  final JoystickButton back = new JoystickButton(controller, 7);
+  final JoystickButton start = new JoystickButton(controller, 8);
+  //final JoystickButton left_joystick_button = new JoystickButton(controller, 9);
+  //final JoystickButton right_joystick_button = new JoystickButton(controller, 10);
+  final JoystickAnalogButton button_LT = new JoystickAnalogButton(controller, 2);
+  final JoystickAnalogButton button_RT = new JoystickAnalogButton(controller, 3);
 
-  //final POVButton xbox_dpad_Up = new POVButton(xboxController, 180);
-  //final POVButton xbox_dpad_Down = new POVButton(xboxController, 0);
-  final POVButton xbox_dpad_Left = new POVButton(xboxController, 90);
-  final POVButton xbox_dpad_Right = new POVButton(xboxController, 270);
+  //final POVButton xbox_dpad_Up = new POVButton(controller, 180);
+  //final POVButton xbox_dpad_Down = new POVButton(controller, 0);
+  final POVButton xbox_dpad_Left = new POVButton(controller, 90);
+  final POVButton xbox_dpad_Right = new POVButton(controller, 270);
 
 }
 
