@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 public class RobotContainer {
 
-  private static RobotContainer m_robotContainer = new RobotContainer();
-
   // Declare all the subsystems
   public Arm m_arm = new Arm();
   public DrivetrainSubsystem m_drivetrain = new DrivetrainSubsystem();
@@ -43,9 +41,6 @@ private final XboxController controller = new XboxController(0);
     // SmartDashboard.putData("Auto Mode", m_chooser);
   }
 
-  public static RobotContainer getInstance() {
-    return m_robotContainer;
-  }
 
 public void init() {
 }
