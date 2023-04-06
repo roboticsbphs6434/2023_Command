@@ -1,63 +1,93 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.Drivetrain.DT_Arcade;
+import frc.robot.subsystems.DrivetrainSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private static RobotContainer m_robotContainer = new RobotContainer();
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the trigger bindings
-    configureBindings();
-  }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
-  private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+  // Declare all the subsystems
+  public final DrivetrainSubsystem m_drivetrain = new DrivetrainSubsystem();
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-  }
+// Joysticks
+//private final XboxController xboxController1 = new XboxController(1);
+private final XboxController xboxController = new XboxController(0);
+
+  // A chooser for autonomous commands
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
+  * The container for the robot.  Contains subsystems, OI devices, and commands.
+  */
+  RobotContainer() {
+    // Smartdashboard Subsystems
+
+
+    // SmartDashboard Buttons
+    // SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
+
+    CameraServer.startAutomaticCapture();
+    configureButtonBindings();
+
+  
+    // m_chooser.setDefaultOption("Drive forwards", new DT_AutoArcadeDrive(m_drivetrain, 0, 1, 0.2, 1));
+    
+    m_drivetrain.setDefaultCommand(new DT_Arcade(m_drivetrain, () -> joystick1.getX(), () -> joystick1.getY(), () -> joystick1.getThrottle(), () -> joystick1.getTrigger()));
+  
+  
+    // SmartDashboard.putData("Auto Mode", m_chooser);
+  }
+
+  public static RobotContainer getInstance() {
+    return m_robotContainer;
+  }
+
+
+public void init() {}
+private void configureButtonBindings() {
+
+
+  final JoystickButton button_A = new JoystickButton(xboxController, 1);
+  final JoystickButton button_B = new JoystickButton(xboxController, 2);
+  final JoystickButton button_X = new JoystickButton(xboxController, 3);
+  final JoystickButton button_Y = new JoystickButton(xboxController, 4);
+
+  final JoystickButton button_LB = new JoystickButton(xboxController, 5);
+  final JoystickButton button_RB = new JoystickButton(xboxController, 6);
+
+  final JoystickButton back = new JoystickButton(xboxController, 7);
+  final JoystickButton start = new JoystickButton(xboxController, 8);
+  //final JoystickButton left_joystick_button = new JoystickButton(xboxController, 9);
+  //final JoystickButton right_joystick_button = new JoystickButton(xboxController, 10);
+  final JoystickAnalogButton button_LT = new JoystickAnalogButton(xboxController, 2);
+  final JoystickAnalogButton button_RT = new JoystickAnalogButton(xboxController, 3);
+
+  //final POVButton xbox_dpad_Up = new POVButton(xboxController, 180);
+  //final POVButton xbox_dpad_Down = new POVButton(xboxController, 0);
+  final POVButton xbox_dpad_Left = new POVButton(xboxController, 90);
+  final POVButton xbox_dpad_Right = new POVButton(xboxController, 270);
+
+}
+
+//  button_RT.onTrue(new Intake_Close(m_intake));
+      
+  //joystickButton10.onTrue(new DT_SetSpin(m_drivetrain, 0.7));
+  //joystickButton12.onTrue(new DT_SetSpin(m_drivetrain, 1));
+
+
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return m_chooser.getSelected();
   }
+  
+
 }
