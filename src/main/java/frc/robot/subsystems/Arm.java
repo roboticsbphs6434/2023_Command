@@ -15,15 +15,13 @@ public class Arm extends SubsystemBase {
     double armSpeed = 0;
     
     public Arm() {
-
-        armMotor = new CANSparkMax(60, MotorType.kBrushed);
+        
+    armMotor = new CANSparkMax(60, MotorType.kBrushed);
     }
     
     @Override
     public void periodic() {
         armMotor.set(armSpeed);
-
-       
 
         SmartDashboard.putNumber("Arm Speed", armMotor.get());
     }

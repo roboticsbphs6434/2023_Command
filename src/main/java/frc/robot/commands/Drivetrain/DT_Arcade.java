@@ -12,12 +12,10 @@ public class DT_Arcade extends CommandBase {
         private BooleanSupplier m_trigger;
  
 
-    public DT_Arcade(DrivetrainSubsystem drivetrain, DoubleSupplier x, DoubleSupplier y, DoubleSupplier speed, BooleanSupplier trigger) {
+    public DT_Arcade(DrivetrainSubsystem drivetrain, DoubleSupplier x, DoubleSupplier y) {
         m_drivetrain = drivetrain;
         m_x = x;
         m_y = y;
-        m_speed = speed;
-        m_trigger = trigger;
         addRequirements(drivetrain);
     }
 
@@ -29,11 +27,7 @@ public class DT_Arcade extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (m_trigger.getAsBoolean()) {
-            m_drivetrain.arcadeDrive(0, m_y.getAsDouble(), 0.5*(1+m_speed.getAsDouble()), false); 
-        } else {
-            m_drivetrain.arcadeDrive(m_x.getAsDouble()*0.7, m_y.getAsDouble(), 0.5*(1+m_speed.getAsDouble()), false);
-        }
+            m_drivetrain.arcadeDrive(m_y.getAsDouble(), m_y.getAsDouble(), 0.5, false); 
     }
 
     // Called once the command ends or is interrupted.
